@@ -1,9 +1,12 @@
 class Snake:
   attr_accessor :body, :food_eaten
+  attr_reader :width, :height
 
-  def initialize(start_x, start_y)
+  def initialize(width, height)
     @food_eaten = false
-    x, y = start_x, start_y
+    @width  = width
+    @height = height    
+    x, y = (width/2).round, (height/2).round
     @body.insert(-1, [x, y])
     @body.insert(-1, [x-1, y])
     @body.insert(-1, [x-2, y])
@@ -66,6 +69,23 @@ class Snake:
     end
   end 
 
+  def move_same_direction
+    head_x, head_y = get_head
+    neck_x, neck_y = @body[1]
+    if head_x.eql?(neck_x)
+      if head_y > neck_y
+        move_up
+      else
+        move_down
+      end
+    else
+      if head_x > neck_x 
+        move_right
+      else
+        move_left
+      end
+    end
+  end
 end
 
 
