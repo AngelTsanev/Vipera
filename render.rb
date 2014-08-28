@@ -52,14 +52,13 @@ class Ascii_render
   end
 
   def fill_pixel(x, y)
-    if @frame.pixels[[x, y]] == 2
-      return '@'
-    end
-    if @frame.pixels[[x, y]] == 1 
-      return '+'
-    end
-    if @frame.pixels[[x, y]] == 0 
-      return '#'
+    case @frame.pixels[[x, y]] 
+      when 2
+        return '@'
+      when 1 
+        return '+'
+      when 0 
+        return '#'
     end
   end
 
