@@ -1,44 +1,60 @@
 class Snake
-  attr_accessor :pixels, :food_eaten
-  attr_reader :width, :height
+  attr_accessor :pixels, :direction
+  attr_reader :width, :height, :map, :food, :score
 
-  def initialize(width, height)
-    @food_eaten = false
-    @width  = width
-    @height = height
+  def initialize(map, food)
+    @direction = :right
+    @score  = 0
     @pixels = []
-    x, y = (width/2).round, (height/2).round
+    @map = map
+    @food = food
+
+    x, y = (map.width/2).round, (map.height/2).round
     @pixels.insert(-1, [x, y])
     @pixels.insert(-1, [x-1, y])
     @pixels.insert(-1, [x-2, y])
     @pixels.insert(-1, [x-3, y])
+    make_food
   end
 
   def get_head
     return @pixels.first.dup
   end
 
-  def food_eaten?
-    return @food_eaten
+  def food_at?(x, y)
+    return @food.food_at?(x, y)
   end
 
+  def get_free_pixel
+    x = rand(@map.width)
+    y = rand(@map.height)
+
+    while pixel_at?(x, y)
+      x = rand(@map.width)
+      y = rand(@map.height)
+    end
+    [x, y]
+  end
+  
   def eat_food
-    @food_eaten = true
+    @score += 1
+    make_food
   end
 
-  def done_eating_food
-    @food_eaten = false
+  def make_food
+    food_coordinates = get_free_pixel
+    @food.set_food(food_coordinates[0], food_coordinates[1])
   end
 
   def pixel_at?(x, y)
-    @pixels.include?([x, y])
+    @pixels.include?([x, y]) or @map.pixel_at?(x, y) 
   end
 
   def move_up
     head_x, head_y = get_head
-    @pixels.insert(0, [head_x, head_y-1])
-    if food_eaten?
-      done_eating_food
+    @pixels.insert(0, [head_x, (head_y-1) % map.height])
+    if food_at?(head_x, head_y-1)
+      eat_food
     else
       @pixels.delete_at(-1)
     end
@@ -46,9 +62,9 @@ class Snake
 
   def move_down
     head_x, head_y = get_head
-    @pixels.insert(0, [head_x, head_y-1])
-    if food_eaten?
-      done_eating_food
+    @pixels.insert(0, [head_x, (head_y+1) % map.height])
+    if food_at?(head_x, head_y+1)
+      eat_food
     else
       @pixels.delete_at(-1)
     end
@@ -56,9 +72,9 @@ class Snake
 
   def move_left
     head_x, head_y = get_head
-    @pixels.insert(0, [head_x-1, head_y])
-    if food_eaten?
-      done_eating_food
+    @pixels.insert(0, [(head_x-1) % map.width, head_y])
+    if food_at?(head_x-1, head_y)
+      eat_food
     else
       @pixels.delete_at(-1)
     end
@@ -66,32 +82,32 @@ class Snake
 
   def move_right
     head_x, head_y = get_head
-    @pixels.insert(0, [head_x+1, head_y])
-    if food_eaten?
-      done_eating_food
+    @pixels.insert(0, [(head_x+1) % map.width, head_y])
+    if food_at?(head_x+1, head_y)
+      eat_food
     else
       @pixels.delete_at(-1)
     end
   end 
 
-  def move_same_direction
-    head_x, head_y = get_head
-    neck_x, neck_y = @pixels[1]
-    if head_x.eql?(neck_x)
-      if head_y > neck_y
-        move_up
-      else
-        move_down
-      end
-    else
-      if head_x > neck_x 
-        move_right
-      else
-        move_left
-      end
+  def move!
+    case @direction
+      when :up    then move_up
+      when :down  then move_down
+      when :left  then move_left
+      when :right then move_right
     end
   end
 
+  def collision?
+    head_x, head_y = get_head
+    kill_snake if @map.pixel_at?(head_x, head_y)
+  end
+
   def kill_snake
+    system("clear")
+    puts "Your score is: " + @score.to_s + "!"
+    sleep(5)
+    exit
   end
 end
