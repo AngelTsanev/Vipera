@@ -1,10 +1,11 @@
 class Snake
-  attr_accessor :pixels, :direction
+  attr_accessor :pixels, :direction, :paused
   attr_reader :width, :height, :map, :food, :score
 
   def initialize(map, food)
     @direction = :right
     @score  = 0
+    @paused = false
     @pixels = []
     @map = map
     @food = food
