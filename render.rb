@@ -27,6 +27,9 @@ class Frame
   def pixel_at?(x, y)
     @pixels[[x, y]] == 0 or @pixels[[x, y]] == 1 or @pixels[[x, y]] == 2
   end
+
+  def write_paused()
+  end
 end
 
 
