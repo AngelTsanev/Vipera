@@ -5,9 +5,8 @@ require 'curses'
 include Curses      
 require './render'
 
-#puts render.render
-def change_of_dir?(snake)
-  #check change of movement
+
+def key_pressed?(snake)
   case getch
     when ?Q, ?q
       exit
@@ -20,11 +19,18 @@ def change_of_dir?(snake)
     when ?A, ?a
       snake.direction = :left unless snake.direction.eql?(:right)
     when ?P, ?p
-      puts "F*ck you can't pause this sh*t!!!!" 
+      snake.paused = snake.paused ? false : true
   end
   close_screen
 end
 
+def is_paused?(snake)
+  key_pressed?(snake)
+  if snake.paused
+    sleep(0.5)      
+    is_paused?(snake)
+  end
+end
 
 def start_game
   #init_screen
@@ -34,14 +40,15 @@ def start_game
   stdscr.nodelay = 1      #the getch doesnt system_pause while waiting for instructions
   #curs_set(0)         #the cursor is invisible.
   
+  #system "clear"
+
   map   = Map.new('map2')
   food  = Food.new()
   snake = Snake.new(map, food)
 
   while(true)
-    #clear
     system "clear"
-    change_of_dir?(snake)
+    is_paused?(snake)
     snake.move!
     snake.collision?
 
@@ -49,7 +56,7 @@ def start_game
     
     puts render.render
     sleep(1.0/4.0)
-    #close_screen
+    system "clear"
   end
   
 end
