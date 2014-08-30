@@ -1,5 +1,5 @@
 require 'test/unit'
-require './Vipera/game'
+require './game'
 
 
 class TestSnake < Test::Unit::TestCase
