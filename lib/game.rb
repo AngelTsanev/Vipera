@@ -1,11 +1,11 @@
-require './snake'
-require './food'
-require './map'
+require './../lib/snake'
+require './../lib/food'
+require './../lib/map'
 require 'curses'
 include Curses
-require './render'
-require './highscore'
-require './food_and_snake_helpers'
+require './../lib/render'
+require './../lib/highscore'
+require './../lib/food_and_snake_helpers'
 include Food_and_Snake
 
 class Game

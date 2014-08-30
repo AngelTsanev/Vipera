@@ -20,7 +20,7 @@ end
 
 def read_all_highscores
   highscores = []
-  File.open("./Highscores/highscores.txt", 'r') do |file|
+  File.open("./../Highscores/highscores.txt", 'r') do |file|
     while name = file.gets
       name = name[0...-1]
       score  = file.gets
@@ -50,7 +50,7 @@ def save_new_highscores(score_one, score_two)
   end
 
   highscores.sort_by!(&:score).reverse!
-  open('./Highscores/highscores.txt', 'w') do |file|
+  open('./../Highscores/highscores.txt', 'w') do |file|
     0.upto([10, highscores.size].min.pred) do |entry|
       file << highscores[entry].name + "\n"
       file << highscores[entry].score.to_s + "\n"

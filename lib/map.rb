@@ -8,7 +8,7 @@ class Map
   end
 
   def read_map(map_name)
-    file = IO.readlines("./Maps/" + map_name + ".vmp")
+    file = IO.readlines("./../Maps/" + map_name + ".vmp")
     @width = file[0].tr("'\n", "").length
     @height = file.size
     0.upto(file.size.pred) do |y|
