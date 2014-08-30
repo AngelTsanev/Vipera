@@ -1,8 +1,9 @@
 class Map
-  attr_reader :width, :height, :pixels
-  
+  attr_reader :width, :height, :pixels, :map_name
+
   def initialize(map_name)
     @pixels = {}
+    @map_name = map_name
     read_map(map_name)
   end
 
@@ -18,10 +19,14 @@ class Map
   end
 
   def set_pixel(x, y)
-    @pixels[[x, y]] = 0 
+    @pixels[[x, y]] = 0
   end
 
   def pixel_at?(x, y)
-    @pixels[[x, y]] == 0
+    @pixels.has_key?([x, y])
+  end
+
+  def serialize
+    [@map_name]
   end
 end

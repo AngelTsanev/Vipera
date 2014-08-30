@@ -1,9 +1,9 @@
 class Food
   attr_reader :x, :y
 
-  def initialize()
-    x = 0
-    y = 0
+  def initialize
+    @x = 0
+    @y = 0
   end
 
   def set_food(x, y)
@@ -12,5 +12,9 @@ class Food
 
   def food_at?(x, y)
     x.eql?(@x) and y.eql?(@y)
+  end
+
+  def serialize
+    [@x, @y]
   end
 end
