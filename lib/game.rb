@@ -90,7 +90,7 @@ class Game
     puts "Enter name for the save:"
     save_name = STDIN.gets.chomp
     stdscr.nodelay = 1
-    File.open("./Saves/" + save_name + ".vsv", "wb") do |file|
+    File.open("./../Saves/" + save_name + ".vsv", "wb") do |file|
       Marshal.dump(array, file)
     end
   end
@@ -216,7 +216,7 @@ def load_saved_game
   save_name = STDIN.gets.chomp
 
   array = []
-  File.open("./Saves/" + save_name + ".vsv","rb") do |file|
+  File.open("./../Saves/" + save_name + ".vsv","rb") do |file|
     array = Marshal.load(file)
   end
   multiplayer = array[0]
