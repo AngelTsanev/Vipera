@@ -45,7 +45,7 @@ module Food_and_Snake
   def move_up(snake)
     head_x, head_y = snake.get_head
     snake.pixels.insert(0, [head_x, (head_y-1) % @height])
-    if food_at?(head_x, head_y-1)
+    if food_at?(head_x, (head_y-1) % @height)
       eat_food(snake)
     else
       snake.pixels.delete_at(-1)
@@ -55,7 +55,7 @@ module Food_and_Snake
   def move_down(snake)
     head_x, head_y = snake.get_head
     snake.pixels.insert(0, [head_x, (head_y+1) % @height])
-    if food_at?(head_x, head_y+1)
+    if food_at?(head_x, (head_y+1) % @height)
       eat_food(snake)
     else
       snake.pixels.delete_at(-1)
@@ -65,7 +65,7 @@ module Food_and_Snake
   def move_left(snake)
     head_x, head_y = snake.get_head
     snake.pixels.insert(0, [(head_x-1) % @width, head_y])
-    if food_at?(head_x-1, head_y)
+    if food_at?(head_x-1) % @width, head_y)
       eat_food(snake)
     else
       snake.pixels.delete_at(-1)
@@ -75,7 +75,7 @@ module Food_and_Snake
   def move_right(snake)
     head_x, head_y = snake.get_head
     snake.pixels.insert(0, [(head_x+1) % @width, head_y])
-    if food_at?(head_x+1, head_y)
+    if food_at?((head_x+1) % @width, head_y)
       eat_food(snake)
     else
       snake.pixels.delete_at(-1)
