@@ -1,3 +1,3 @@
-require './../lib/game'
+require_relative './../lib/game'
 
 welcome
