@@ -1,12 +1,16 @@
 class Frame
   attr_reader :pixels, :width, :height
 
-  def initialize(map, snake, food)
+  def initialize(map, food, snake_one, snake_two=nil)
     @pixels = {}
     @width = map.width
     @height = map.height
     draw_map(map)
-    draw_snake(snake)
+    draw_snake(snake_one, 1)
+    if snake_two != nil
+      draw_snake(snake_two, 3)
+    end
+
     draw_food(food)
   end
 
@@ -14,9 +18,9 @@ class Frame
     @pixels.merge!(map.pixels)
   end
 
-  def draw_snake(snake)
+  def draw_snake(snake, number)
     0.upto(snake.pixels.length.pred) do |i|
-      @pixels[snake.pixels[i]] = 1
+      @pixels[snake.pixels[i]] = number
     end
   end
 
@@ -25,16 +29,13 @@ class Frame
   end
 
   def pixel_at?(x, y)
-    @pixels[[x, y]] == 0 or @pixels[[x, y]] == 1 or @pixels[[x, y]] == 2
-  end
-
-  def write_paused()
+    @pixels.has_key?([x, y])
   end
 end
 
 
 class Ascii_render
-  attr_reader :frame 
+  attr_reader :frame
 
   def initialize(frame)
     @frame = frame
@@ -55,18 +56,36 @@ class Ascii_render
   end
 
   def fill_pixel(x, y)
-    case @frame.pixels[[x, y]] 
+    case @frame.pixels[[x, y]]
+      when 3
+        return char_snake2
       when 2
-        return '@'
-      when 1 
-        return '+'
-      when 0 
-        return '#'
+        return char_food
+      when 1
+        return char_snake1
+      when 0
+        return char_wall
     end
   end
 
   def blank_pixel
     '-'
+  end
+
+  def char_snake2
+    'o'
+  end
+
+  def char_snake1
+    '+'
+  end
+
+  def char_food
+    '@'
+  end
+
+  def char_wall
+    '#'
   end
 
   def join_pixels_in(line)
