@@ -1,5 +1,5 @@
 require 'test/unit'
-require './game'
+require './../lib/game'
 
 
 class TestSnake < Test::Unit::TestCase
@@ -108,14 +108,14 @@ class TestMap < Test::Unit::TestCase
 
   def test_if_width_is_calculated_properly
     map = Map.new('map')
-    lines = File.open('./Maps/map.vmp').to_a
+    lines = File.open('./../Maps/map.vmp').to_a
     expected = lines.first.size.pred
     assert_equal expected, map.width
   end
 
   def test_if_height_is_calculated_properly
     map = Map.new('map')
-    lines = File.open('./Maps/map.vmp').to_a
+    lines = File.open('./../Maps/map.vmp').to_a
     expected = lines.size
     assert_equal expected, map.height
   end
